@@ -1,0 +1,18 @@
+body{
+  padding-left: 20px;
+  display: none;
+}
+Form Button {
+  width: 100%;
+}
+
+.message {
+  margin: 2px 2px;
+  padding: 5px;
+  color:white;
+  border-radius: 20px;
+}
+
+.form-content{
+  padding:100px 100px 0px 100px
+}
