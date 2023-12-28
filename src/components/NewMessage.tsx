@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
+//import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 
 interface NewMessageProp {
   sendMessage: (message: string) => Promise<void>;

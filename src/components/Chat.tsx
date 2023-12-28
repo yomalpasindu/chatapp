@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 import MessageContent from "./MessageContent";
 import NewMessage from "./NewMessage";
 interface ChatProps {

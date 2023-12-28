@@ -29,7 +29,7 @@ function App() {
         setMessages((prevMessages) => [...prevMessages, { user, message }]);
       });
 
-      connection.onclose((e) => {
+      connection.onclose(() => {
         connection.stop();
         setConnection(connection);
         setMessages([]);
@@ -43,13 +43,13 @@ function App() {
     }
   };
 
-  const closeConnection = async () => {
-    try {
-      await connection?.stop();
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const closeConnection = async () => {
+  //   try {
+  //     await connection?.stop();
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const sendMessage = async (message: string) => {
     try {
