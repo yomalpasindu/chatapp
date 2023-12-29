@@ -15,15 +15,20 @@ function App() {
     message: string;
   }
 
-  const [connection, setConnection] = useState<HubConnection>();
+  const [connection, setConnection] = useState<HubConnection | null>();
   const [messages, setMessages] = useState<Message[]>([]);
+  const [users, setUsers] = useState([]);
 
   const joinRoom = async (Room: string, User: string) => {
     try {
       const connection = new HubConnectionBuilder()
-        .withUrl("https://localhost:7019/Chat")
+        .withUrl("https://localhost:44345/Chat")
         .configureLogging(LogLevel.Information)
         .build();
+
+      connection.on("ConnectedUser", (users) => {
+        setUsers(users);
+      });
 
       connection.on("ReceiveMessage", (user, message) => {
         setMessages((prevMessages) => [...prevMessages, { user, message }]);
@@ -31,8 +36,9 @@ function App() {
 
       connection.onclose(() => {
         connection.stop();
-        setConnection(connection);
+        setConnection(null);
         setMessages([]);
+        setUsers([]);
       });
 
       await connection.start();
@@ -43,13 +49,13 @@ function App() {
     }
   };
 
-  // const closeConnection = async () => {
-  //   try {
-  //     await connection?.stop();
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  const closeConnection = async () => {
+    try {
+      await connection?.stop();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const sendMessage = async (message: string) => {
     try {
@@ -66,7 +72,12 @@ function App() {
           {!connection ? (
             <Lobby onSubmit={(data) => joinRoom(data.Room, data.User)}></Lobby>
           ) : (
-            <Chat messages={messages} sendMessage={sendMessage}></Chat>
+            <Chat
+              messages={messages}
+              sendMessage={sendMessage}
+              closeConnection={closeConnection}
+              users={users}
+            ></Chat>
           )}
         </div>
       </div>
